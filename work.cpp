@@ -33,6 +33,7 @@ enum {
 
 void set_color(int color)
 {
+    PCA9685 pwm;
     switch( color )
     {
         case Yellow:
@@ -84,7 +85,7 @@ void set_color(int color)
 }
 
 
-void get_acc(float *ax, float *ay, float *ay)
+void get_acc(MPU9250 imu,float *ax, float *ay, float *az)
 {
     imu.read_acc();
     *ax = imu.accelerometer_data[0];
@@ -135,7 +136,7 @@ int main()
 
     while (true) {
 
-        get_acc(&ax, &ay, &az);
+        get_acc(imu,&ax, &ay, &az);
 
         if (ax >8) X = 1;
             else if (ax <-8) X = -1;
