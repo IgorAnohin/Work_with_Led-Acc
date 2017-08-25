@@ -151,46 +151,32 @@ int main()
                     else Z = 0;
 
 
-        if (X == 0 && Y == 0 && Z == 1) {
+        if (X == 0 && Y == 0 && Z == 1)
             //Neutral position
             set_color(Yellow);
 
-        }
-
-        if (X == 1 && Y == 0 && Z == 0) {
+        if (X == 1 && Y == 0 && Z == 0)
             //Left
             set_color(Cyan);
-        }
 
-        if (X == -1 && Y == 0 && Z == 0) {
+        if (X == -1 && Y == 0 && Z == 0)
             //right
             set_color(Magneta);
-        }
 
-        if (X == 0 && Y == 1 && Z == 0) {
+        if (X == 0 && Y == 1 && Z == 0)
             //Back
             set_color(Blue);
-        }
 
-        if (X == 0 && Y == -1 && Z == 0) {
+        if (X == 0 && Y == -1 && Z == 0)
             //forward
             set_color(Red);
-        }
 
-        if (X == 0 && Y == 0 && Z == -1) {
+        if (X == 0 && Y == 0 && Z == -1)
             //up down
             set_color(Green);
-        }
-
-
-
-
-
 
         sleep(1);
-
     }
-
 
     return 0;
 }
