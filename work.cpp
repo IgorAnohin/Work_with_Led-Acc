@@ -134,7 +134,7 @@ int main()
         imu.initialize();
 
         float ax, ay, az;
-        int X = 0, Y = 0, Z = 0;
+        int change_X, change_Y, change_Z;
 
     //-------------------------------------------------------------------------
 
@@ -142,26 +142,26 @@ int main()
 
         get_acc(&imu,&ax, &ay, &az);
 
-        X = Get_deviation(ax);
-        Y = Get_deviation(ay);
-        Z = Get_deviation(az);
+        change_X = Get_deviation(ax);
+        change_Y = Get_deviation(ay);
+        change_Z = Get_deviation(az);
 
-        if (X == 0 && Y == 0 && Z == 1)            //Neutral position
+        if (change_X == 0 && change_Y == 0 && change_Z == 1)            //Neutral position
             set_color(&pwm, Yellow);
 
-        if (X == 1 && Y == 0 && Z == 0)            //Left 90*
+        if (change_X == 1 && change_Y == 0 && change_Z == 0)            //Left 90*
             set_color(&pwm, Cyan);
 
-        if (X == -1 && Y == 0 && Z == 0)           //Right 90*
+        if (change_X == -1 && change_Y == 0 && change_Z == 0)           //Right 90*
             set_color(&pwm, Magneta);
 
-        if (X == 0 && Y == 1 && Z == 0)            //Back 90*
+        if (change_X == 0 && change_Y == 1 && change_Z == 0)            //Back 90*
             set_color(&pwm, Blue);
 
-        if (X == 0 && Y == -1 && Z == 0)           //Forward 90*
+        if (change_X == 0 && change_Y == -1 && change_Z == 0)           //Forward 90*
             set_color(&pwm, Red);
 
-        if (X == 0 && Y == 0 && Z == -1)           //Invert 180*
+        if (change_X == 0 && change_Y == 0 && change_Z == -1)           //Invert 180*
             set_color(&pwm, Green);
 
         sleep(1);
