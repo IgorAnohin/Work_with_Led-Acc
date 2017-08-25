@@ -30,8 +30,17 @@ enum {
     Green
 };
 
+enum {
+     Neutral,
+     Left,
+     Right,
+     Back,
+     Forward,
+     Invert
+};
 
-void set_color(PCA9685 *pwm,int color)
+
+static void set_color(PCA9685 *pwm,int color)
 {
     switch( color )
     {
@@ -84,7 +93,7 @@ void set_color(PCA9685 *pwm,int color)
 }
 
 
-void get_acc(MPU9250 *imu,float *ax, float *ay, float *az)
+static void get_acc(MPU9250 *imu,float *ax, float *ay, float *az)
 {
     imu->read_acc();
     *ax = imu->accelerometer_data[0];
@@ -93,14 +102,27 @@ void get_acc(MPU9250 *imu,float *ax, float *ay, float *az)
 }
 
 
-int Get_deviation(float accel)
+static int Get_deviation(float accel)
 {
     if (accel > 8) return 1; //+g
         else if (accel < -8) return -1; //-g
                 else return 0; //g=0
 }
 
+static int get_changed_position(int x, int y, int z)
+{
+    if (x == 0 && y == 0 && z == 1) return Neutral;
 
+    if (x == 1 && y == 0 && z == 0) return Left;           //Left 90*
+
+    if (x == -1 && y == 0 && z == 0) return Right;           //Right 90*
+
+    if (x == 0 && y == 1 && z == 0) return Back;            //Back 90*
+
+    if (x == 0 && y == -1 && z == 0) return Forward;          //Forward 90*
+
+    if (x == 0 && y == 0 && z == -1) return Invert;           //Invert 180*
+}
 
 int main()
 {
@@ -134,7 +156,7 @@ int main()
         imu.initialize();
 
         float ax, ay, az;
-        int change_X, change_Y, change_Z;
+        int change_X, change_Y, change_Z, position;
 
     //-------------------------------------------------------------------------
 
@@ -146,23 +168,36 @@ int main()
         change_Y = Get_deviation(ay);
         change_Z = Get_deviation(az);
 
-        if (change_X == 0 && change_Y == 0 && change_Z == 1)            //Neutral position
-            set_color(&pwm, Yellow);
+        position = get_changed_position(change_X, change_Y, change_Z);
 
-        if (change_X == 1 && change_Y == 0 && change_Z == 0)            //Left 90*
-            set_color(&pwm, Cyan);
+        switch (position) {
 
-        if (change_X == -1 && change_Y == 0 && change_Z == 0)           //Right 90*
-            set_color(&pwm, Magneta);
+            case Neutral:
+                 set_color(&pwm, Yellow);
+            break;
 
-        if (change_X == 0 && change_Y == 1 && change_Z == 0)            //Back 90*
-            set_color(&pwm, Blue);
+            case Left:
+                 set_color(&pwm, Cyan);
+            break;
 
-        if (change_X == 0 && change_Y == -1 && change_Z == 0)           //Forward 90*
-            set_color(&pwm, Red);
+            case Right:
+                 set_color(&pwm, Magneta);
+            break;
 
-        if (change_X == 0 && change_Y == 0 && change_Z == -1)           //Invert 180*
-            set_color(&pwm, Green);
+            case Back:
+                 set_color(&pwm, Blue);
+            break;
+
+            case Forward:
+                 set_color(&pwm, Red);
+            break;
+
+            case Invert:
+                 set_color(&pwm, Green);
+            break;
+
+        }
+
 
         sleep(1);
     }
