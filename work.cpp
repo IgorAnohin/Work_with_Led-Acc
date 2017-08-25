@@ -94,7 +94,12 @@ void get_acc(MPU9250 imu,float *ax, float *ay, float *az)
 }
 
 
-
+int Get_deviation(float accel)
+{
+    if (accel > 8) return 1; //+g
+        else if (accel < -8) return -1; //-g
+                else return 0; //g=0
+}
 
 
 
@@ -138,18 +143,9 @@ int main()
 
         get_acc(imu,&ax, &ay, &az);
 
-        if (ax >8) X = 1;
-            else if (ax <-8) X = -1;
-                    else X = 0;
-
-        if (ay >8) Y = 1;
-            else if (ay <-8) Y = -1;
-                    else Y = 0;
-
-        if (az >8) Z = 1;
-            else if (az <-8) Z = -1;
-                    else Z = 0;
-
+        X = Get_deviation(ax);
+        Y = Get_deviation(ay);
+        Z = Get_deviation(az);
 
         if (X == 0 && Y == 0 && Z == 1)
             //Neutral position
