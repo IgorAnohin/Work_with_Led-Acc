@@ -147,28 +147,22 @@ int main()
         Y = Get_deviation(ay);
         Z = Get_deviation(az);
 
-        if (X == 0 && Y == 0 && Z == 1)
-            //Neutral position
+        if (X == 0 && Y == 0 && Z == 1)            //Neutral position
             set_color(Yellow);
 
-        if (X == 1 && Y == 0 && Z == 0)
-            //Left
+        if (X == 1 && Y == 0 && Z == 0)            //Left 90*
             set_color(Cyan);
 
-        if (X == -1 && Y == 0 && Z == 0)
-            //right
+        if (X == -1 && Y == 0 && Z == 0)           //Right 90*
             set_color(Magneta);
 
-        if (X == 0 && Y == 1 && Z == 0)
-            //Back
+        if (X == 0 && Y == 1 && Z == 0)            //Back 90*
             set_color(Blue);
 
-        if (X == 0 && Y == -1 && Z == 0)
-            //forward
+        if (X == 0 && Y == -1 && Z == 0)           //Forward 90*
             set_color(Red);
 
-        if (X == 0 && Y == 0 && Z == -1)
-            //up down
+        if (X == 0 && Y == 0 && Z == -1)           //invert 180*
             set_color(Green);
 
         sleep(1);
